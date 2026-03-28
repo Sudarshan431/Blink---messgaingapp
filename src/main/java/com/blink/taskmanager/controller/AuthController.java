@@ -1,0 +1,31 @@
+package com.blink.taskmanager.controller;
+
+import com.blink.taskmanager.dto.auth.AuthResponse;
+import com.blink.taskmanager.dto.auth.LoginRequest;
+import com.blink.taskmanager.dto.auth.RegisterRequest;
+import com.blink.taskmanager.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AuthResponse register(@Valid @RequestBody RegisterRequest request) {
+        return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public AuthResponse login(@Valid @RequestBody LoginRequest request) {
+        return authService.login(request);
+    }
+}
